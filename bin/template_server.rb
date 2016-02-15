@@ -3,10 +3,10 @@ require '../lib/controller_base'
 
 class TestController < ControllerBase
   def start
-    if @req.path == "/test"
+    if @req.path == "/template"
       render("test")
     else
-      redirect_to("/test")
+      redirect_to("/template")
     end
   end
 

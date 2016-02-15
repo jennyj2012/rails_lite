@@ -14,12 +14,11 @@ class Route
   end
 
   def run(req, res)
-    match_data = Regexp.new(url_pattern).match
+    match_data = url_pattern.match(req.path)
     route_params = {}
     match_data.names.each { |key| route_params[key] = match_data[key] }
 
-    controller = new ControllerBase(req, res, route_params)
-    controller.invoke_action(action)
+    controller_class.new(req, res, route_params).invoke_action(action)
   end
 
 end
@@ -33,7 +32,6 @@ class Router
   end
 
   def run(req, res)
-
     if match(req)
       route = match(req)
       route.run(req, res)

@@ -3,7 +3,7 @@ require_relative '../lib/controller_base'
 require_relative '../lib/router'
 
 
-$test = [
+$users = [
   { id: 1, name: "User 1" },
   { id: 2, name: "User 2" }
 ]
@@ -14,7 +14,7 @@ $posts = [
   { id: 3, user_id: 1, text: "User 1 second post" }
 ]
 
-class StatusesController < ControllerBase
+class PostsController < ControllerBase
   def index
     posts = $posts.select do |post|
       post[:user_id] == Integer(params['user_id'])
@@ -33,7 +33,7 @@ end
 router = Router.new
 router.draw do
   get Regexp.new("^/users$"), UsersController, :index
-  get Regexp.new("^/users/(?<user_id>\\d+)/posts$"), StatusesController, :index
+  get Regexp.new("^/users/(?<user_id>\\d+)/posts$"), PostsController, :index
 end
 
 app = Proc.new do |env|

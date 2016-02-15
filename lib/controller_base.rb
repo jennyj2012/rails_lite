@@ -53,7 +53,7 @@ class ControllerBase
   end
 
   def invoke_action(action)
-    send(action)
+    self.send(action)
     render(action.to_s) unless already_rendered?
   end
 
