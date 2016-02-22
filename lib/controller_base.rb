@@ -10,7 +10,7 @@ require_relative './router.rb'
 
 class ControllerBase
 
-  attr_reader :res, :req, :session, :already_rendered
+  attr_reader :res, :req, :session, :already_rendered, :params
 
   def initialize(req, res, route_params = {})
     @res = res || Rack::Response.new
