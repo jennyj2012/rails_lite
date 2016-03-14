@@ -1,9 +1,9 @@
-# Rails Lite
-A Ruby Web framework inspired by Ruby on Rails.
+# Wheels
+A lightweight Ruby Web framework inspired by Ruby on Rails.
 
 #Overview
-Recreates Rails controller, route, and session functionality.
-Handles http requests and responses using Rack middleware and object oriented design.
+Builds HTTP responses using Rack Middleware to access the request environment
+Keeps code DRY by implementing object oriented design to create controller instances and custom routes
 
 #Features
 * Session cookie storage
