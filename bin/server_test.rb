@@ -3,14 +3,6 @@ require_relative '../lib/controller_base'
 require_relative '../lib/session'
 require_relative '../lib/router'
 
-app = Proc.new do |env|
-  req = Rack::Request.new(env)
-  res = Rack::Response.new
-  res['Content-Type'] = 'text/html'
-  res.write("Welcome to Rails Lite")
-  res.finish
-end
-
 class TestsController < ControllerBase
   def start
     if @req.path == "/test"
@@ -22,14 +14,6 @@ class TestsController < ControllerBase
 
 end
 
-app2 = Proc.new do |env|
-  req = Rack::Request.new(env)
-  res = Rack::Response.new
-  TestsControllers.new(req, res).start
-  res.finish
-end
-
-
 class TemplatesController < ControllerBase
   def start
     if @req.path == "/template"
@@ -38,14 +22,6 @@ class TemplatesController < ControllerBase
       redirect_to("/template")
     end
   end
-
-end
-
-app3 = Proc.new do |env|
-  req = Rack::Request.new(env)
-  res = Rack::Response.new
-  TemplatesController.new(req, res).start
-  res.finish
 end
 
 class SessionsController < ControllerBase
@@ -53,21 +29,13 @@ class SessionsController < ControllerBase
     session["count"] ||= 0
     session["count"] += 1
     if @req.path == "/session"
-      render_content("count: " + session["count"].to_s, 'text/html')
+      render_content("Cookie count: " + session["count"].to_s, 'text/html')
     else
       redirect_to("/session")
     end
   end
 
 end
-
-app4 = Proc.new do |env|
-  req = Rack::Request.new(env)
-  res = Rack::Response.new
-  SessionsController.new(req, res).start
-  res.finish
-end
-
 
 $users = [
   { id: 1, name: "User 1" },
@@ -101,12 +69,24 @@ router = Router.new
 router.draw do
   get Regexp.new("^/users$"), UsersController, :index
   get Regexp.new("^/users/(?<user_id>\\d+)/posts$"), PostsController, :index
+  get Regexp.new("^/test$"), TestsController, :start
+  get Regexp.new("^/template$"), TemplatesController, :start
+  get Regexp.new("^/session$"), SessionsController, :start
 end
 
-app5 = Proc.new do |env|
+
+app = Proc.new do |env|
   req = Rack::Request.new(env)
   res = Rack::Response.new
-  router.run(req, res)
+  # TestsController.new(req, res).start
+  # TemplatesController.new(req, res).start
+  # SessionsController.new(req, res).start
+  if req.path == "/"
+    res['Content-Type'] = 'text/html'
+    res.write("Welcome to Wheels, a lightweight web framework inspired by Rails")
+  else
+    router.run(req, res)
+  end
   res.finish
 end
 
