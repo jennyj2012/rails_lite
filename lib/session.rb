@@ -4,7 +4,6 @@ class Session
 
   def initialize(req)
     @cookie_name = "_test_cookie"
-    #req.cookies returns hash, value is a string
     raw_cookie = req.cookies[@cookie_name]
 
     if raw_cookie
@@ -24,6 +23,6 @@ class Session
 
   def store_session(response)
     json_cookie = cookie.to_json
-    response.set_cookie(cookie_name, json_cookie) #set_cookie accepts a string cookie
+    response.set_cookie(cookie_name, json_cookie) 
   end
 end

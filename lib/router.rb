@@ -6,7 +6,7 @@ class Route
     @url_pattern = url_pattern
     @http_method = http_method
     @controller_class = controller_class
-    @action = action #symbol
+    @action = action
   end
 
   def matches?(req)
@@ -55,11 +55,9 @@ class Router
   end
 
   def draw(&proc)
-    #calls router_instance.http_method for each line in proc
     instance_eval(&proc)
   end
 
-  #return first matched route
   def match(req)
     @routes.each do |route|
       return route if route.matches?(req)

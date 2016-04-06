@@ -1,12 +1,9 @@
 require 'active_support'
 require 'active_support/core_ext'
-require 'active_support/inflector' #underscore snake case method
+require 'active_support/inflector'
 require 'erb'
 require_relative './session'
-require 'byebug'
 require_relative './router.rb'
-
-#Controler Base accepts HTTP requests and responses as inputs.
 
 class ControllerBase
 
